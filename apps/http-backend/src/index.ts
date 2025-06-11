@@ -11,11 +11,11 @@ app.get("/",(req,res)=>{
     res.send("this is  get endpoint")
 })
 
-app.post("/signup",(req,res)=>{
+app.post("/signup",async(req,res)=>{
 
-    const data=CreateUserSchema.safeParse(req.body)
+    const parsedData=CreateUserSchema.safeParse(req.body)
 
-    if(!data.success){
+    if(!parsedData.success){
       res.json({
             message:"Incorrect inputs"
         })
@@ -24,6 +24,14 @@ app.post("/signup",(req,res)=>{
     }
 
     //db call
+
+    await prismaClient.user.create({
+        data:{
+            email:parsedData.data?.username,
+            password:parsedData.data?.password,
+            name:parsedData.data.name
+        }
+    })
 
     res.json({
         useId:"123"
