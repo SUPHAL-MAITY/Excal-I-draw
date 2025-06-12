@@ -25,14 +25,25 @@ app.post("/signup",async(req,res)=>{
 
     //db call
 
-    await prismaClient.user.create({
-        data:{
-            email:parsedData.data?.username,
-            password:parsedData.data?.password,
-            name:parsedData.data.name
-        }
+
+    try {
+
+        await prismaClient.user.create({
+          data:{
+                email:parsedData.data?.username,
+                password:parsedData.data?.password,
+                name:parsedData.data.name
+            }
     })
 
+        
+    } catch (error) {
+        res.status(411).json({
+            message:"User already exist with this username"
+        })
+    }
+
+ 
     res.json({
         useId:"123"
     })
