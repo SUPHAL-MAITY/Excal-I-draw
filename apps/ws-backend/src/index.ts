@@ -60,6 +60,9 @@ wss.on("connection",function connection(ws,request){
         ws
     })
 
+
+    console.log(users)
+
      ws.on("message",async function(data){
         let parsedData;
         if(typeof data !== "string"){
@@ -69,8 +72,9 @@ wss.on("connection",function connection(ws,request){
         }
 
         if(parsedData.type=="join_room"){
-        const user=users.find(x =>x.ws ===ws)
+        const user=users.find(x =>x.ws === ws)
         user?.rooms.push(parsedData.roomId)
+        console.log("user",user)
         }
 
         if(parsedData.type === "leave_room"){
@@ -84,7 +88,7 @@ wss.on("connection",function connection(ws,request){
             console.log("message received")
             console.log(parsedData)
 
-            if(parsedData.type==="chat"){
+        if(parsedData.type==="chat"){
                 const roomId=parsedData.roomId;
                 const message=parsedData.message;
 
@@ -96,7 +100,7 @@ wss.on("connection",function connection(ws,request){
                     userId
                 }
              })
-             
+             console.log("users",users)
              users.forEach(user=>{
                 if(user.rooms.includes(roomId)){
                     user.ws.send(JSON.stringify(
@@ -109,7 +113,7 @@ wss.on("connection",function connection(ws,request){
             
              })
 
-            }
+        }
         
    
      })
