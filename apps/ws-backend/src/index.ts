@@ -53,13 +53,13 @@ wss.on("connection",function connection(ws,request){
         ws.close()
         return;
     }
-
+    
     users.push({
         userId,
         rooms:[],
         ws
     })
-
+  
 
     console.log("users after connection",users)
 

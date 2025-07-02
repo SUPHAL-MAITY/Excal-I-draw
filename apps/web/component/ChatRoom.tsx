@@ -12,3 +12,5 @@ export async function ChatRoom({ id }: { id: string }) {
   return <ChatRoomClient id={id} messages={messages} />;
 }
 
+
+
